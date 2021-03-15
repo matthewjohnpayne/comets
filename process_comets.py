@@ -27,7 +27,8 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     )
     stdout, stderr = process.communicate()
     stdout = stdout.decode("utf-8").split('\n')
-    print("stdout\n", stdout , "...\n")
+    SUCCESS = True if 'success' in [_ for _ in stdout if 'comet_orbits' in _ ][-1] else False
+    print("SUCCESS\n", SUCCESS , "...\n", [_ for _ in stdout if 'comet_orbits' in _ ][-1] )
 
     """
     arg_parser.add_argument('cmt_desig', help="Provide comet MPC packed designation")
