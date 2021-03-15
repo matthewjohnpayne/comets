@@ -122,9 +122,9 @@ def summarize_processing( fit_dict) :
             print(obs_file_name , desig , individual_fit_dict['SUCCESS'] )
             # if successful ...
             if individual_fit_dict['SUCCESS']:
-                summary['SUCCESS'].append(desig , individual_fit_dict['directory'])
+                summary['SUCCESS'].append( (desig , individual_fit_dict['directory']) )
             else:
-                summary['FAILURE'].append(desig , individual_fit_dict['directory'])
+                summary['FAILURE'].append( (desig , individual_fit_dict['directory']) )
     
     # *** ADD IN MORE TO DESCRIBE SUCCESS/FAILURE ONCE I KNOW WHAT THE OUTPUT LOOKS LIKE ***
     
