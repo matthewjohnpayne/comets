@@ -51,10 +51,13 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     """
     #comet_orbits.main(cmt_desig,'N','DB','N','N',59200.,'N','N','1','0000/00/00','0000/00/00','0.','0.','0.',tmp_obs_file,directory)
     
-    return {'SUCCESS':SUCCESS}
+    return {'SUCCESS':SUCCESS, 'directory': directory}
 
 def process_submission(obs_file):
-    ''' Process a single submission file from /sa/incoming/cmt/cmt '''
+    '''
+    Process a single submission file from /sa/incoming/cmt/cmt
+    NB, Each file might contain observations from multiple different comets
+    '''
     submission_fit_dict = {}
 
     # Read the contents of the file
@@ -63,7 +66,6 @@ def process_submission(obs_file):
     
     # Extract the desig(s) of the comets in the file
     desigs = [ _[:13].strip() for _ in data]
-    
     
     # There may be multiple objects in a file ...
     # ... so just process object-by-object
@@ -99,7 +101,7 @@ def process_cmt():
     obs_file_list = glob.glob(cmt_dir + "/*.obs")
     
     # Process each obs file
-    for obs_file in obs_file_list:
+    for obs_file in obs_file_list[:2]:
         fit_dict[obs_file] = process_submission(obs_file)
         
     # Summarize the result
@@ -110,23 +112,35 @@ def process_cmt():
   
 def summarize_processing( fit_dict) :
     ''' Provides a summary of the processing done on submissions in /sa/incoming/cmt/cmt '''
-    
+    summary = {'SUCCESS' : [], 'FAILURE':[] }
     routine         = list(fit_dict.keys())[0]
     fit_dict        = fit_dict[routine]
     n_submissions   = len(fit_dict)
 
     for obs_file_name, submission_fit_dict in fit_dict.items():
-        for tmp_file_name, individual_fit_dict in submission_fit_dict.items():
-            print(obs_file_name , tmp_file_name , individual_fit_dict['SUCCESS'] )
-
+        for desig, individual_fit_dict in submission_fit_dict.items():
+            print(desig , tmp_file_name , individual_fit_dict['SUCCESS'] )
+            # if successful ...
+            if individual_fit_dict['SUCCESS']:
+                summary['SUCCESS'].append(desig , individual_fit_dict['directory'])
+            else:
+                summary['FAILURE'].append(desig , individual_fit_dict['directory'])
+    
     # *** ADD IN MORE TO DESCRIBE SUCCESS/FAILURE ONCE I KNOW WHAT THE OUTPUT LOOKS LIKE ***
     
     for _ in [  f"Routine: {routine}",
                 f"Number of submissions: {n_submissions}",
+                f"Number of successes: {len(summary['SUCCESS'])} "
+                f"Number of failures: {len(summary['FAILURE'])} "
                 ]:
         print(_)
+    print('SUCCESS')
+    for _ in summary['SUCCESS']:
+        print(_)
+    print('FAILURE')
+    for _ in summary['FAILURE']:
+        print(_)
 
-    
 if __name__ == '__main__':
     # If called from the command-line, do /cmt/cmt directory
     # In the future could allow for options to call other routines, e.g. pct ...
