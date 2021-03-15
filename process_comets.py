@@ -60,7 +60,7 @@ def process_submission(obs_file):
         # Do we want to do any kind of check on the desigs?
         
         # Set up the tmp-proc-dir
-        proc_dir = newsub.generate_subdirectory( sub_dir )
+        proc_dir = newsub.generate_subdirectory( 'comets' )
 
         # Set up a temp file name
         tmp_obs_file = os.path.join(sub_dir , obs_file.split("/")[0] , str(n) )
