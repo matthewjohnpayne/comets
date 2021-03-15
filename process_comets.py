@@ -51,7 +51,7 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     """
     #comet_orbits.main(cmt_desig,'N','DB','N','N',59200.,'N','N','1','0000/00/00','0000/00/00','0.','0.','0.',tmp_obs_file,directory)
     
-    return {'SUCCESS':SUCCESS, 'directory': directory}
+    return {'SUCCESS':SUCCESS, 'directory': directory, 'stdout':stdout }
 
 def process_submission(obs_file):
     '''
@@ -101,7 +101,7 @@ def process_cmt():
     obs_file_list = glob.glob(cmt_dir + "/*.obs")
     
     # Process each obs file
-    for obs_file in obs_file_list[:2]:
+    for obs_file in obs_file_list[:8]:
         fit_dict[obs_file] = process_submission(obs_file)
         
     # Summarize the result
@@ -124,13 +124,13 @@ def summarize_processing( fit_dict) :
             if individual_fit_dict['SUCCESS']:
                 summary['SUCCESS'].append( (desig , individual_fit_dict['directory']) )
             else:
-                summary['FAILURE'].append( (desig , individual_fit_dict['directory']) )
+                summary['FAILURE'].append( (desig , individual_fit_dict['directory'], individual_fit_dict['stdouts']) )
     
     # *** ADD IN MORE TO DESCRIBE SUCCESS/FAILURE ONCE I KNOW WHAT THE OUTPUT LOOKS LIKE ***
     
     for _ in [  f"Routine: {routine}",
                 f"Number of submissions: {n_submissions}",
-                f"Number of successes: {len(summary['SUCCESS'])} "
+                f"Number of successes: {len(summary['SUCCESS'])} ",
                 f"Number of failures: {len(summary['FAILURE'])} "
                 ]:
         print(_)
