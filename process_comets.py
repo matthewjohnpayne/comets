@@ -27,8 +27,9 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     )
     stdout, stderr = process.communicate()
     stdout = stdout.decode("utf-8").split('\n')
+    
+    # Parse the output to look for the 'success' flag ...
     SUCCESS = True if 'success' in [_ for _ in stdout if 'comet_orbits' in _ ][-1] else False
-    print("SUCCESS\n", SUCCESS , "...\n", [_ for _ in stdout if 'comet_orbits' in _ ][-1] )
 
     """
     arg_parser.add_argument('cmt_desig', help="Provide comet MPC packed designation")
@@ -50,7 +51,7 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     """
     #comet_orbits.main(cmt_desig,'N','DB','N','N',59200.,'N','N','1','0000/00/00','0000/00/00','0.','0.','0.',tmp_obs_file,directory)
     
-    return {}
+    return {'SUCCESS':SUCCESS}
 
 def process_submission(obs_file):
     ''' Process a single submission file from /sa/incoming/cmt/cmt '''
@@ -87,38 +88,44 @@ def process_submission(obs_file):
         # Run fit
         submission_fit_dict[desig] = process_single_cmt(desig , tmp_obs_file, proc_dir)
                     
-
     return submission_fit_dict
   
-def summarize_processing( fit_dict) :
-    ''' Provides a summary of the processing done on submissions in /sa/incoming/cmt/cmt '''
-    routine         = list(fit_dict.keys())[0]
-    fit_dict        = fit_dict[routine]
-    n_submissions   = len(fit_dict)
-    # *** ADD IN MORE TO DESCRIBE SUCCESS/FAILURE ONCE I KNOW WHAT THE OUTPUT LOOKS LIKE ***
-    
-    for _ in [  f"Routine: {routine}",
-                f"Number of submissions: {n_submissions}",
-                ]:
-        print(_)
   
 def process_cmt():
     ''' Process all submissions in /sa/incoming/cmt/cmt '''
-    cmt_fit_dict = {}
+    fit_dict = {}
     
     # Get all obs files
     obs_file_list = glob.glob(cmt_dir + "/*.obs")
     
     # Process each obs file
     for obs_file in obs_file_list:
-        cmt_fit_dict[obs_file] = process_submission(obs_file)
-        sys.exit()
+        fit_dict[obs_file] = process_submission(obs_file)
         
     # Summarize the result
-    summarize_processing( {"process_cmt" : cmt_fit_dict} )
+    summarize_processing( {"process_cmt" : fit_dict} )
 
     return True
+
+  
+def summarize_processing( fit_dict) :
+    ''' Provides a summary of the processing done on submissions in /sa/incoming/cmt/cmt '''
     
+    routine         = list(fit_dict.keys())[0]
+    fit_dict        = fit_dict[routine]
+    n_submissions   = len(fit_dict)
+
+    for obs_file_name, submission_fit_dict in fit_dict.items():
+        for tmp_file_name, individual_fit_dict in submission_fit_dict.items():
+            print(obs_file_name , tmp_file_name , individual_fit_dict['SUCCESS'] )
+
+    # *** ADD IN MORE TO DESCRIBE SUCCESS/FAILURE ONCE I KNOW WHAT THE OUTPUT LOOKS LIKE ***
+    
+    for _ in [  f"Routine: {routine}",
+                f"Number of submissions: {n_submissions}",
+                ]:
+        print(_)
+
     
 if __name__ == '__main__':
     # If called from the command-line, do /cmt/cmt directory
