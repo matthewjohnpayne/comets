@@ -19,7 +19,15 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     # Run a fit on the temp file
     command = f"python3 /sa/orbit_utils/comet_orbits.py {cmt_desig} --add_obsfile {tmp_obs_file} --orbit N --directory {directory}"
     print("Running\n", command , "...\n")
-    os.system(command)
+    process = subprocess.Popen( command,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                shell=True
+    )
+    stdout, stderr = process.communicate()
+    stdout = stdout.decode("utf-8").split('\n')
+    print("stdout\n", stdout , "...\n")
+
     """
     arg_parser.add_argument('cmt_desig', help="Provide comet MPC packed designation")
     arg_parser.add_argument('--trksub', dest='trksub', help='Is it a trksub? Y=Yes, N=No', default='N')
