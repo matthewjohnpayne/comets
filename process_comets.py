@@ -119,7 +119,7 @@ def summarize_processing( fit_dict) :
 
     for obs_file_name, submission_fit_dict in fit_dict.items():
         for desig, individual_fit_dict in submission_fit_dict.items():
-            print(desig , tmp_file_name , individual_fit_dict['SUCCESS'] )
+            print(obs_file_name , desig , individual_fit_dict['SUCCESS'] )
             # if successful ...
             if individual_fit_dict['SUCCESS']:
                 summary['SUCCESS'].append(desig , individual_fit_dict['directory'])
