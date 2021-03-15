@@ -17,7 +17,9 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     ''' Process a single (temp) file from /sa/incoming/cmt/cmt that will contain only obs of a single comet'''
     
     # Run a fit on the temp file
-    os.system(f"python3 /sa/orbit_utils/comet_orbits.py {cmt_desig} --add_obsfile {tmp_obs_file} --orbit N --directory {directory}")
+    commend = f"python3 /sa/orbit_utils/comet_orbits.py {cmt_desig} --add_obsfile {tmp_obs_file} --orbit N --directory {directory}"
+    print("Running\n", command , "...\n")
+    os.system(command)
     """
     arg_parser.add_argument('cmt_desig', help="Provide comet MPC packed designation")
     arg_parser.add_argument('--trksub', dest='trksub', help='Is it a trksub? Y=Yes, N=No', default='N')
