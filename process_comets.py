@@ -75,7 +75,7 @@ def process_submission(obs_file):
                     fh.write(data[n])
                     
         # Run fit
-        submission_fit_dict[desig] = process_single_cmt(desig , tmp_obs_file, directory)
+        submission_fit_dict[desig] = process_single_cmt(desig , tmp_obs_file, proc_dir)
                     
 
     return submission_fit_dict
