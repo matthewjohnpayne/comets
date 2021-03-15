@@ -64,7 +64,7 @@ def process_submission(obs_file):
         proc_dir = newsub.generate_subdirectory( 'comets' )
 
         # Set up a temp file name
-        tmp_obs_file = os.path.join(proc_dir , os.path.split(obs_file)[1] , str(n) )
+        tmp_obs_file = os.path.join(proc_dir , os.path.split(obs_file)[1] + "_" + str(n) )
         print("tmp_obs_file", tmp_obs_file)
         sys.exit()
         # Open temp file to allow us to write to it
