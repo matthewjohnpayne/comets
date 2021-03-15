@@ -44,7 +44,8 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
 def process_submission(obs_file):
     ''' Process a single submission file from /sa/incoming/cmt/cmt '''
     submission_fit_dict = {}
-    
+    print("obs_file", obs_file)
+
     # Read the contents of the file
     with open(obs_file, 'r') as fh:
         data = fh.readlines()
