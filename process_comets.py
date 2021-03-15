@@ -18,7 +18,7 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     print(cmt_desig , tmp_obs_file , directory)
     
     # Run a fit on the temp file
-    # python3 /sa/orbit_utils/comet_orbits.py CK21A040 --add_obsfile /sa/incoming/cmt/cmt/2021-03-14T00:41:31.001_0000E5vL.obs --orbit N
+    os.system(f"python3 /sa/orbit_utils/comet_orbits.py {cmt_desig} --add_obsfile {tmp_obs_file} --orbit N --directory {directory}")
     """
     arg_parser.add_argument('cmt_desig', help="Provide comet MPC packed designation")
     arg_parser.add_argument('--trksub', dest='trksub', help='Is it a trksub? Y=Yes, N=No', default='N')
@@ -37,7 +37,7 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     arg_parser.add_argument('--add_obsfile', dest='addobs', help='Add observation file to the obs in the DB', default='N')
     arg_parser.add_argument('--directory', dest='directory', help="Directory to be used", default='N')
     """
-    comet_orbits.main(cmt_desig,'N','DB','N','N',59200.,'N','N','1','0000/00/00','0000/00/00','0.','0.','0.',tmp_obs_file,directory)
+    #comet_orbits.main(cmt_desig,'N','DB','N','N',59200.,'N','N','1','0000/00/00','0000/00/00','0.','0.','0.',tmp_obs_file,directory)
     sys.exit()
     return {}
 
