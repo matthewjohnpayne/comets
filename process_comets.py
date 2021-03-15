@@ -44,7 +44,6 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
 def process_submission(obs_file):
     ''' Process a single submission file from /sa/incoming/cmt/cmt '''
     submission_fit_dict = {}
-    print("obs_file", obs_file)
 
     # Read the contents of the file
     with open(obs_file, 'r') as fh:
@@ -66,7 +65,7 @@ def process_submission(obs_file):
         # Set up a temp file name
         tmp_obs_file = os.path.join(proc_dir , os.path.split(obs_file)[1] + "_" + str(n) )
         print("tmp_obs_file", tmp_obs_file)
-        sys.exit()
+
         # Open temp file to allow us to write to it
         with open(tmp_obs_file, 'w') as fh:
         
@@ -76,12 +75,8 @@ def process_submission(obs_file):
                     fh.write(data[n])
                     
         # Run fit
-        submission_fit_dict[desig] = process_single_cmt(tmp_obs_file)
-            
-        # Tidy-up
-        if os.path.isfile(tmp_obs_file):
-            os.remove(tmp_obs_file)
-        
+        submission_fit_dict[desig] = process_single_cmt(desig , tmp_obs_file, directory)
+                    
 
     return submission_fit_dict
   
