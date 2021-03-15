@@ -15,7 +15,6 @@ cmt_dir = os.path.join(comet_dir, "cmt")
 # Functions
 def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     ''' Process a single (temp) file from /sa/incoming/cmt/cmt that will contain only obs of a single comet'''
-    print(cmt_desig , tmp_obs_file , directory)
     
     # Run a fit on the temp file
     os.system(f"python3 /sa/orbit_utils/comet_orbits.py {cmt_desig} --add_obsfile {tmp_obs_file} --orbit N --directory {directory}")
@@ -38,7 +37,7 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     arg_parser.add_argument('--directory', dest='directory', help="Directory to be used", default='N')
     """
     #comet_orbits.main(cmt_desig,'N','DB','N','N',59200.,'N','N','1','0000/00/00','0000/00/00','0.','0.','0.',tmp_obs_file,directory)
-    sys.exit()
+    
     return {}
 
 def process_submission(obs_file):
@@ -64,7 +63,6 @@ def process_submission(obs_file):
 
         # Set up a temp file name
         tmp_obs_file = os.path.join(proc_dir , os.path.split(obs_file)[1] + "_" + str(n) )
-        print("tmp_obs_file", tmp_obs_file)
 
         # Open temp file to allow us to write to it
         with open(tmp_obs_file, 'w') as fh:
