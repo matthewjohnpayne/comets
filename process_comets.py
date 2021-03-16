@@ -29,7 +29,7 @@ def process_single_cmt(cmt_desig , tmp_obs_file, directory):
     stdout = stdout.decode("utf-8").split('\n')
     
     # Parse the output to look for the 'success' flag ...
-    SUCCESS = True if 'success' in [_ for _ in stdout if 'comet_orbits' in _ ][-1] else False
+    SUCCESS = True if 'succeeded' in [_ for _ in stdout if 'comet_orbits' in _ ][-1] else False
 
     """
     arg_parser.add_argument('cmt_desig', help="Provide comet MPC packed designation")
