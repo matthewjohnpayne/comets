@@ -124,7 +124,7 @@ def summarize_processing( fit_dict) :
             if individual_fit_dict['SUCCESS']:
                 summary['SUCCESS'].append( (desig , individual_fit_dict['directory']) )
             else:
-                summary['FAILURE'].append( (desig , individual_fit_dict['directory'], individual_fit_dict['stdouts']) )
+                summary['FAILURE'].append( (desig , individual_fit_dict['directory'], individual_fit_dict['stdout']) )
     
     # *** ADD IN MORE TO DESCRIBE SUCCESS/FAILURE ONCE I KNOW WHAT THE OUTPUT LOOKS LIKE ***
     
