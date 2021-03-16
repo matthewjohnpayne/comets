@@ -101,7 +101,7 @@ def process_cmt():
     obs_file_list = glob.glob(cmt_dir + "/*.obs")
     
     # Process each obs file
-    for obs_file in obs_file_list[:4]:
+    for obs_file in obs_file_list:
         fit_dict[obs_file] = process_submission(obs_file)
         
     # Summarize the result
